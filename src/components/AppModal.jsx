@@ -3,9 +3,12 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogFooter,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
+import { Button } from "@/components/ui/button";
 
 const AppModal = ({show, onClose, onSubmit, submitLabel = "Save", cancelLabel = "Cancel",
     isLoading = false, showFooter = true, children, title}) => {
@@ -35,3 +38,5 @@ const AppModal = ({show, onClose, onSubmit, submitLabel = "Save", cancelLabel = 
             </Dialog>
         );
     };
+
+export default AppModal;

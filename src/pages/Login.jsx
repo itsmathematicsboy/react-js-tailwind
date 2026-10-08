@@ -1,10 +1,21 @@
 import { useState } from "react";
 // import { Form, Button, Container, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Button } from "../../components/ui/button";
+import { Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle } from "@/components/ui/alert";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,6 +26,7 @@ export default function Login() {
 
   const [formData, setFormData] = useState(_initialForm);
   const [isLoading, setIsLoading] = useState(false);
+  const [erorMsg, setErorMsg] = useState("");
 
   const handleChange = (e) => {
     // prev : params
@@ -26,13 +38,45 @@ export default function Login() {
     // setFormData(function(prev){})
   };
 
-  const handleLogin = (e) => {
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //     navigate("/dashboard");
+  //   }, 1000);
+  // };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
+
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      console.log(formData);
+      const result = await res.json();
+      if (!res.ok) {
+        throw new Error(
+          result.message || "Please check your email and password",
+        );
+      }
+      localStorage.setItem("token", result.data.token);
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000);
+    } catch (error) {
+      setErorMsg(error.message);
+      console.log(error);
+    } finally {
       setIsLoading(false);
-      navigate("/dashboard");
-    }, 1000);
+    }
   };
 
   return (
@@ -40,25 +84,47 @@ export default function Login() {
       <div className="w-full max-w-md">
         <div className="mb-6 flex flex-col items-center">
           {/* <div className="mb-2 flex h-12 w-12 items-start justify-center rounded-sm shadow"></div> */}
-          <h1 className="text-2xl font-bold tracking-tight">Point Of Sales | PPKD JP</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Point Of Sales | PPKD JP
+          </h1>
           <p className="text-sm text-muted">Point Of Sales</p>
         </div>
 
         <Card className="shadow-lg border-border p-6">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-lg font-semibold">Sign In your Account</CardTitle>
+            <CardTitle className="text-lg font-semibold">
+              Sign In your Account
+            </CardTitle>
             <CardDescription>Enter your credential</CardDescription>
+            {erorMsg && <Alert className="font-bold text-red-950">{erorMsg}</Alert>}
           </CardHeader>
 
           <form onSubmit={handleLogin}>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label>Email</Label>
-                <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Enter your email" required autofocus />
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter your email"
+                  required
+                  autofocus
+                />
               </div>
               <div className="space-y-2">
                 <Label>Password</Label>
-                <Input id="password" name="password" type="password" value={formData.password} onChange={handleChange} placeholder="Enter your password" required />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter your password"
+                  required
+                />
               </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-3 pt-3">

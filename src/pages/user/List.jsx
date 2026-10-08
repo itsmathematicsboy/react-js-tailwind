@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import AppModal from "../../components/AppModal";
+
 // import { Card, Form, Button, Table, Modal } from "react-bootstrap";
 // import AppModal from "../../components/AppModal";
 
@@ -92,14 +96,17 @@ const ListUser = () => {
   return (
     <>
       <Card className="shadow-sm border-0 p-6">
+        <CardHeader className="flex flex-row items-center justify-between space0y-0 pb-4">
+          <div>
+            <CardTitle className="text-xl font-bold">Data User</CardTitle>
+          </div>
+          <Button variant="primary" onClick={handleOpenModal}>Create New User</Button>
+        </CardHeader>
         <CardContent className="p-0">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div>
               <h4 className="mb-0 fw-bold">Data User</h4>
             </div>
-            <Button variant="primary" onClick={handleOpenModal}>
-              Create New User
-            </Button>
           </div>
           <table className="w-full text-left text-sm">
             <thead className="border-y bg-muted/30 text-xs uppercase text-muted-foreground">
@@ -172,8 +179,8 @@ const ListUser = () => {
         </Modal.Footer>
       </Modal> */}
 
-      {/* <AppModal show={showModal} onClose={handleCloseModal} title={isEdit ? "Edit User" : "Create New User"} onSubmit={handleSubmit} submitLabel={isEdit ? "Save Change" : "Save"}>
-        <Form>
+      <AppModal show={showModal} onClose={handleCloseModal} title={isEdit ? "Edit User" : "Create New User"} onSubmit={handleSubmit} submitLabel={isEdit ? "Save Change" : "Save"}>
+        {/* <Form>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
             <Form.Control type="text" name="name" placeholder="Enter your name" required value={formData.name} onChange={handleChange}></Form.Control>
@@ -195,8 +202,25 @@ const ListUser = () => {
               <option value="In Active">Draft</option>
             </Form.Select>
           </Form.Group>
-        </Form>
-      </AppModal> */}
+        </Form> */}
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label>Name</Label>
+            <Input id="name" name ="name" required 
+            placeholder = "Masukan Nama" value={formData.name} onChange= {handleChange}></Input>
+          </div>
+          <div className="space-y-2">
+            <Label>Email</Label>
+            <Input id="email" name ="email" required 
+            placeholder = "Masukan Email" value={formData.email} onChange= {handleChange}></Input>
+          </div>
+          <div className="space-y-2">
+            <Label>Password</Label>
+            <Input id="password" name ="password" required 
+            placeholder = "Masukan Password" value={formData.password} onChange= {handleChange}></Input>
+          </div>
+        </div>
+      </AppModal>
     </>
   );
 };
