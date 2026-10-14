@@ -12,10 +12,9 @@ import {
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Button } from "../../components/ui/button";
-import { Alert,
-  AlertAction,
-  AlertDescription,
-  AlertTitle } from "@/components/ui/alert";
+import { Alert} from "@/components/ui/alert";
+import api from "@/services/api";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -53,22 +52,17 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      console.log(formData);
-      const result = await res.json();
-      if (!res.ok) {
-        throw new Error(
-          result.message || "Please check your email and password",
-        );
-      }
-      localStorage.setItem("token", result.data.token);
+      const res = await api.post("/auth/login", formData)
+      // console.log(formData);
+      console.log(res.data.data.token);
+
+      // const result = await res.json();
+      // if (!res.ok) {
+      //   throw new Error(
+      //     result.message || "Please check your email and password",
+      //   );
+      // }
+      localStorage.setItem("token", res.data.data.token);
       setTimeout(() => {
         navigate("/dashboard");
       }, 1000);

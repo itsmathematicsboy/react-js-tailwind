@@ -122,9 +122,9 @@ const ListUser = () => {
     } catch (error) {
       console.log(error.message);
     }
-    }
+    };
     // filter: users
-  };
+
 
   return (
     <>
