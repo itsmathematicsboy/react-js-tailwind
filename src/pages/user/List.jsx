@@ -162,8 +162,8 @@ const ListUser = () => {
                     className="hover:bg-muted/50 transition-colors"
                   >
                     <td className="px-4 py-6 whitespace-nowrap">{index + 1}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
+                    <td>{user.order_name}</td>
+                    <td>{user.payment_method}</td>
                     <td>
                       <span
                         className={`border rounded-sm p-1 ${user.is_active === 1 ? "bg-green-700" : "bg-red-700"} bg-green-700 text-white`}
