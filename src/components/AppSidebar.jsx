@@ -1,4 +1,4 @@
-import { Home, Inbox, Calendar, Search, Settings, User2, ChevronUp } from "lucide-react";
+import { Home, Inbox, Calendar, Search, Settings, User2, Users, ChevronUp, LogOut } from "lucide-react";
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 
@@ -7,9 +7,9 @@ const items = [
   { title: "Home", url: "#", icon: Home },
   { title: "Inbox", url: "#", icon: Inbox },
   { title: "Calendar", url: "#", icon: Calendar },
-  { title: "Search", url: "#", icon: Search },
+  { title: "User", url: "/user", icon: Users },
   { title: "Settings", url: "#", icon: Settings },
-  { title: "Logout", url : "#", icon: "Settings"}
+  { title: "Logout", url : "#", icon: Settings}
 ];
 
 export function AppSidebar() {
