@@ -1,15 +1,16 @@
-import { Home, Inbox, Calendar, Search, Settings, User2, Users, ChevronUp, LogOut } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Home, Inbox, Calendar, Search, Settings, User2, Users, ChevronUp, LogOut, ShoppingBasket } from "lucide-react";
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 
 // Menu navigasi utama
 const items = [
   { title: "Home", url: "#", icon: Home },
-  { title: "Inbox", url: "#", icon: Inbox },
-  { title: "Calendar", url: "#", icon: Calendar },
-  { title: "User", url: "/user", icon: Users },
-  { title: "Settings", url: "#", icon: Settings },
-  { title: "Logout", url : "#", icon: Settings}
+  { title: "Order", url: "/transaction", icon: ShoppingBasket },
+  { title: "Product", url: "/product", icon: Calendar },
+  { title: "Category", url: "/user", icon: Users },
+  { title: "User", url: "#", icon: Settings },
+  { title: "Settings", url : "#", icon: Settings}
 ];
 
 export function AppSidebar() {
@@ -34,7 +35,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton tooltip={item.title} render={<a href={item.url} />}>
+                  <SidebarMenuButton tooltip={item.title} render={<Link to={item.url} />}>
                     <item.icon />
                     <span>{item.title}</span>
                   </SidebarMenuButton>

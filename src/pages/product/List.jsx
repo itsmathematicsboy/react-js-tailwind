@@ -20,8 +20,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@base-ui/react";
-import { SelectItem, SelectItemIndicator } from "@base-ui/react";
+} from "@/components/ui/select";
+// import { SelectItem, SelectItemIndicator } from "@base-ui/react";
 
 const ProductPage = () => {
   const _initForm = {

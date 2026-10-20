@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -14,28 +15,8 @@ import AppModal from "../../components/AppModal";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import api from "@/services/api";
 
-// const datatransactions = [
-//   {
-//     id: 1,
-//     name: "Reza",
-//     email: "ribrahim50@gmail.com",
-//     password: 12345678,
-//   },
-//   {
-//     id: 2,
-//     name: "Budi",
-//     email: "budi@gmail.com",
-//     password: 12345678,
-//   },
-//   {
-//     id: 3,
-//     name: "ani",
-//     email: "ani@gmail.com",
-//     password: 12345678,
-//   },
-// ];
-
 const ListTransaction = () => {
+  const navigate = useNavigate();
   const _initForm = {
     id: null,
     name: "",
@@ -142,7 +123,7 @@ const ListTransaction = () => {
               Data Transaction
             </CardTitle>
           </div>
-          <Button onClick={handleOpenModal}>Transaction</Button>
+          <Button onClick={() => navigate("/transaction/create")}>Create New Transaction</Button>
         </CardHeader>
         <CardContent className="p-0">
           <div className="d-flex justify-content-between align-items-center mb-3">
@@ -179,10 +160,7 @@ const ListTransaction = () => {
                         </ul>
                       ))}
                     </td>
-                    {/* <td>
-                      <span className={`border rounded-sm p-2 ${user.is_active === 1 ? "bg-green-600" : "bg-red-600"}   text-white`}>{user.is_active === 1 ? "Active" : "In-Active"}</span>
-                    </td> */}
-                    <td className="px-4 py-6 text-right whitespace-nowrap">
+                    <td className="px-4 py-6 whitespace-nowrap">
                       <Button
                         onClick={() => handleEditModal(transaction)}
                         size="sm"
@@ -212,36 +190,6 @@ const ListTransaction = () => {
           </table>
         </CardContent>
       </Card>
-
-      {/* <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Transaction</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>
-              <Form.Control type="text" name="name" placeholder="Enter your name" required value={formData.name} onChange={handleChange}></Form.Control>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control value={formData.email} onChange={handleChange} type="email" name="email" placeholder="Enter your email" required></Form.Control>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control value={formData.password} onChange={handleChange} type="password" name="password" placeholder="Enter your passwod" required></Form.Control>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
-          <Button type="submit" variant="primary" onClick={handleSubmit}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
 
       <AppModal
         show={showModal}
@@ -309,29 +257,6 @@ const ListTransaction = () => {
             ""
           )}
         </div>
-        {/* <Form>
-          <Form.Group className="mb-3">
-            <Form.Label>Name</Form.Label>
-            <Form.Control type="text" name="name" placeholder="Enter your name" required value={formData.name} onChange={handleChange}></Form.Control>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Email</Form.Label>
-            <Form.Control value={formData.email} onChange={handleChange} type="email" name="email" placeholder="Enter your email" required></Form.Control>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Password</Form.Label>
-            <Form.Control value={formData.password} onChange={handleChange} type="password" name="password" placeholder="Enter your passwod" required></Form.Control>
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Status</Form.Label>
-            <Form.Select name="status" value={formData.status} onChange={handleChange}>
-              <option value="">Select One</option>
-              <option value="Active">Publish</option>
-              <option value="In Active">Draft</option>
-            </Form.Select>
-          </Form.Group>
-        </Form> */}
       </AppModal>
     </>
   );
