@@ -40,7 +40,7 @@ const ProductPage = () => {
   const fetchProducts = async () => {
     try {
       // get All Users
-      const response = await api.get("/product");
+      const response = await api.get("/products");
       setProducts(response.data);
     } catch (error) {
       console.log(error.message);
@@ -50,7 +50,7 @@ const ProductPage = () => {
   const fetchCategories = async () => {
     try {
       // get All Users
-      const response = await api.get("/category");
+      const response = await api.get("/categories");
       setCategories(response.data);
     } catch (error) {
       console.log(error.message);
@@ -99,11 +99,11 @@ const ProductPage = () => {
       };
       if (isEdit) {
         // update data
-        await api.put(`/product/${formData.id}`, payload);
+        await api.put(`/products/${formData.id}`, payload);
         // setUsers(users.map((user) => (user.id === formData.id ? formData : user)));
       } else {
         // insert data
-        await api.post("/product", payload);
+        await api.post("/products", payload);
         // const newUser = {
         //   ...formData,
         //   id: Date.now(),
@@ -128,7 +128,7 @@ const ProductPage = () => {
     );
     if (confirmation) {
       // delete
-      await api.delete(`/product/${id}`);
+      await api.delete(`/products/${id}`);
       fetchProducts();
       // setUsers(users.filter((u) => u.id !== id));
     }
@@ -177,7 +177,7 @@ const ProductPage = () => {
                       <span
                         className={`border rounded-sm p-2 ${row.is_active === 1 ? "bg-green-600" : "bg-red-600"}   text-white`}
                       >
-                        {user.is_active === 1 ? "Active" : "In-Active"}
+                        {row.is_active === 1 ? "Active" : "In-Active"}
                       </span>
                     </td>
                     <td className="px-4 py-6 text-right whitespace-nowrap">

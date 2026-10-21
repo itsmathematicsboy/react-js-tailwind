@@ -47,7 +47,7 @@ const ListUser = () => {
   const fetchUser = async () => {
       try {
         const response = await api.get("/user");
-        setusers(response.data.data);
+        setusers(response.data);
       } catch (error) {
         console.log(error.message);
       }

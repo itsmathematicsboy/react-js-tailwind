@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import AppModal from "../../components/AppModal";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import api from "@/services/api";
+import { useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const FormTransaction = () => {
@@ -78,6 +79,51 @@ const FormTransaction = () => {
       })
       .filter((item) => item.qty > 0);
     })
+  }
+
+  const TAX_RATE = 0.1;
+  const totalAmount = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+  const tax = Math.round(totalAmount * TAX_RATE);
+  const total = totalAmount + tax;
+  const change = Number(cashAmount) - totalAmount;
+
+  const handleCheckout = async () => {
+    try {
+      setLoading(true);
+      const payload = {
+        order_number: Date.now(),
+        payment_method: paymentMethod == "cash" ? 2 : 1,
+        items: cart.map((item) => ({
+          product_id: item.id,
+          qty: item.qty,
+          price: item.price
+        })),
+        total: totalAmount,
+        pay: cashAmount,
+        tax: tax,
+        total: total
+      };
+
+      const response = await api.post("/transaction", payload);
+      const resData = response.data;
+
+      if(!resData.status){
+        alert(resData.message || "Failed process transaction")
+        return;
+      }
+
+      if(paymentMethod === "qris" && resData.payment_gateway?.redirect_url){
+        window.location.href = resData.payment_getway.redirect_url;
+        return;
+      }
+
+      await api.post('/transaction', payload);
+      Navigate('/transaction');
+    } catch (error) {
+      console.log('error transaction order', error);
+    }finally{
+      setLoading(false);
+    }
   }
 
   const handleOpenModal = () => {
@@ -238,19 +284,39 @@ const FormTransaction = () => {
               </div>
               <div className="space-y-1.5 pt-3 border-t text-xs">
                 <div className="flex justify-between font-semibold text-sm">
+                  <span>SubTotal</span>
+                  <span>
+                    {Number(totalAmount).toLocaleString("id-ID", 
+                      {style: "currency", currency:"IDR",maximumFractionDigits: 0}
+                    )}
+                  </span>
+                </div>
+                <div className="flex justify-between font-semibold text-sm">
+                  <span>Tax (10%)</span>
+                  <span>
+                    {Number(tax).toLocaleString("id-ID", 
+                      {style: "currency", currency:"IDR",maximumFractionDigits: 0}
+                    )}
+                  </span>
+                </div>
+                <div className="flex justify-between font-semibold text-sm">
                   <span>Total</span>
                   <span>
-                    Rp.100.000
+                    {Number(total).toLocaleString("id-ID", 
+                      {style: "currency", currency:"IDR",maximumFractionDigits: 0}
+                    )}
                   </span>
                 </div>
                 <div className="flex justify-between text-muted-foreground">
                   <span>Change</span>
-                  <span>Rp.100.000</span>
+                  <span>{Number(change).toLocaleString("id-ID", 
+                      {style: "currency", currency:"IDR",maximumFractionDigits: 0}
+                    )}</span>
                 </div>
               </div>
             </CardContent>
             <CardFooter className="p-4 border-t">
-              <Button className="w-full text-xs font-semibold">Save Transaction</Button>
+              <Button onClick={handleCheckout} className="w-full text-xs font-semibold">{loading ? "Loading" : "Save Transaction"}</Button>
             </CardFooter>
           </Card>
         </div>

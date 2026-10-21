@@ -28,7 +28,7 @@ const CategoryPage = () => {
   const fetchCategories = async () => {
     try {
       // get All Users
-      const response = await api.get("/category");
+      const response = await api.get("/categories");
       setCategories(response.data);
     } catch (error) {
       console.log(error.message);
@@ -75,11 +75,11 @@ const CategoryPage = () => {
       };
       if (isEdit) {
         // update data
-        await api.put(`/category/${formData.id}`, payload);
+        await api.put(`/categories/${formData.id}`, payload);
         // setUsers(users.map((user) => (user.id === formData.id ? formData : user)));
       } else {
         // insert data
-        await api.post("/category", payload);
+        await api.post("/categories", payload);
         // const newUser = {
         //   ...formData,
         //   id: Date.now(),
@@ -104,7 +104,7 @@ const CategoryPage = () => {
     );
     if (confirmation) {
       // delete
-      await api.delete(`/user/${id}`);
+      await api.delete(`/categories/${id}`);
       fetchUser();
       // setUsers(users.filter((u) => u.id !== id));
     }
